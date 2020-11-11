@@ -14,5 +14,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD /bin/bash
 CMD ["yarn", "serve"]
