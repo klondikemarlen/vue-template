@@ -37,6 +37,10 @@ class DevHelper
     dc(*%w[logs -f], *args)
   end
 
+  def run(*args)
+    dc(*%w[run --rm], *args)
+  end
+
   # Custom helpers
   def refresh
     down

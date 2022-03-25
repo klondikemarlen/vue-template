@@ -1,0 +1,7 @@
+# .prettierrc or .prettierrc.yaml
+embeddedLanguageFormatting: "auto"
+semi: false
+singleAttributePerLine: true
+singleQuote: false
+tabWidth: 2
+trailingComma: "es5"
