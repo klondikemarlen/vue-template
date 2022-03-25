@@ -15,8 +15,12 @@
   },
   "dependencies": {
     "axios": "^0.26.1",
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.17.3",
     "core-js": "^3.8.3",
     "lodash": "^4.17.21",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
@@ -44,6 +48,7 @@
     "prettier": "^2.6.0",
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
+    "vue-cli-plugin-bootstrap-vue": "~0.8.2",
     "vue-cli-plugin-pug": "~2.0.0",
     "vue-cli-plugin-test": "~1.0.2",
     "vue-template-compiler": "^2.6.14"
