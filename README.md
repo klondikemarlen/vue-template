@@ -4,9 +4,9 @@ A template to for Vuejs based web app.
 
 ## Project setup
 
-`bin/dev up` if you have ruby installed.
+`bin/dev up --build` if you have ruby installed.
 or
-`docker-compose -f docker-compose.development.yml` if you don't.
+`docker-compose -f docker-compose.development.yml --build` if you don't.
 
 ### Compiles and hot-reloads for development
 
@@ -18,6 +18,12 @@ dev run npm run serve
 
 ```
 dev run npm run build
+```
+
+### Run your unit tests
+
+```
+dev run npm run test:unit
 ```
 
 ### Lints and fixes files
