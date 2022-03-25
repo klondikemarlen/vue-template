@@ -21,17 +21,20 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
-    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-parser": "^7.12.16",
     "@prettier/plugin-pug": "^1.20.0",
     "@vue/cli": "^4.5.17",
-    "@vue/cli-plugin-babel": "^4.5.17",
-    "@vue/cli-plugin-eslint": "^4.5.17",
-    "@vue/cli-plugin-router": "^4.5.17",
-    "@vue/cli-plugin-unit-mocha": "^4.5.17",
-    "@vue/cli-plugin-vuex": "^4.5.17",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-unit-mocha": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/test-utils": "^1.1.3",
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.6",
-    "eslint": "^6.8.0",
+    "cli-plugin-test": "^1.0.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
@@ -40,6 +43,7 @@
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
     "vue-cli-plugin-pug": "~2.0.0",
+    "vue-cli-plugin-test": "~1.0.2",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
@@ -57,6 +61,15 @@
     },
     "rules": {},
     "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "mocha": true
+        }
+      },
       {
         "files": [
           "**/__tests__/*.{j,t}s?(x)",
