@@ -1,65 +1,65 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
 
-move_to_base() {
-    script_dir=$1
-    pushd ${script_dir}/.. > /dev/null
-}
+class DevHelper
+  def self.call(*args)
+    self.new.call(*args)
+  end
 
-return_from_base () {
-    popd > /dev/null
-}
+  # Core logic
+  def call(*args)
+    if args.length.zero?
+      dc(*args)
+    elsif respond_to?(args[0])
+      public_send(args[0], args.drop(1))
+    else
+      dc(*args)
+    end
+  end
 
-app_container_id () {
-   echo $(dc_cmd ps -q app)
-}
+  def dc(*args)
+    puts "Running: docker-compose -f docker-compose.development.yml #{args.join(' ')}"
+    exec("docker-compose -f docker-compose.development.yml #{args.join(' ')}")
+  end
 
-dc_cmd () {
-   docker-compose -f docker-compose.yml "$@"
-}
+  def build(*args)
+    dc(%w[build], *args)
+  end
 
-boot () {
-  dc_cmd up -d "$@"
-}
+  def up(*args)
+    dc(*%w[up --remove-orphans], *args)
+  end
 
-test () {
-   dc_cmd run --rm test yarn test "$@"
-}
+  def down(*args)
+    dc(*%w[down --remove-orphans], *args)
+  end
 
-debug () {
-    echo "Awaiting binding.pry to trigger..."
-    echo "'ctrl-c' to exit"
-    (docker attach --detach-keys ctrl-c $(app_container_id))
-    exit 0
-}
+  def logs(*args)
+    dc(*%w[logs -f], *args)
+  end
 
-main () {
-    if [[ -z "$1" || "$1" == "-h" || "$1" == "--help" ]]; then
-       echo "
-dev
-  -h --help             List possible command usages.
+  # Custom helpers
+  def refresh
+    down
+    up
+  end
 
-  Local Commands
-  test                  Boot the test service.
-  [some local command]  Run that command
+  def sqlcmd(*args)
+    db_host = ENV.fetch('DB_HOST', 'localhost')
+    db_user = ENV.fetch('DB_USER', 'sa')
+    db_pass = ENV.fetch('DB_PASS', '1m5ecure!')
+    db_name = ENV.fetch('DB_NAME', 'YHSI')
+    dc(
+      *%w[exec db /opt/mssql-tools/bin/sqlcmd],
+      *%W[-U #{db_user}],
+      *%W[-P #{db_pass}],
+      *%W[-H #{db_host}],
+      *%W[-d #{db_name}],
+      *args,
+    )
+  end
+end
 
-  Docker Compose Commands
-  logs -f               Ouput \`docker-compose -f docker-compose.development.yml logs -f\`
-                        Any non-local command will pipe to docker-compose
-"
-    exit 0
-    fi
-
-    SCRIPT_DIR=$(dirname $0)
-
-    move_to_base $SCRIPT_DIR
-
-    if [[ $(type -t "$1") == 'function' ]]; then
-        eval "$@"
-        exit 0
-    fi
-
-    dc_cmd "$@"
-    return_from_base
-}
-
-main "$@"
+# Only execute main function when file is executed
+if $PROGRAM_NAME == __FILE__
+  DevHelper.call(*ARGV)
+end
