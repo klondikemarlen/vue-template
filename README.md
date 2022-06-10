@@ -1,6 +1,6 @@
 # vue-template
 
-A template to for Vuejs based web app.
+A template for a Vuejs based web app.
 
 ## Project setup
 
